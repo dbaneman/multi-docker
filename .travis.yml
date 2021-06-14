@@ -14,3 +14,7 @@ after_success:
   - docker build -t dbaneman/multi-server ./server
   - docker build -t dbaneman/multi-worker ./worker
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push dbaneman/multi-client
+  - docker push dbaneman/multi-nginx
+  - docker push dbaneman/multi-server
+  - docker push dbaneman/multi-worker
