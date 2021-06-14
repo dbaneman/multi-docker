@@ -1,0 +1,16 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t dbaneman/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true dbaneman/react-test npm test
+
+after_success:
+  - docker build -t dbaneman/multi-client ./client
+  - docker build -t dbaneman/multi-nginx ./nginx
+  - docker build -t dbaneman/multi-server ./server
+  - docker build -t dbaneman/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
